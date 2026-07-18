@@ -1,4 +1,6 @@
 pandas>=2.0
 matplotlib>=3.7
 openpyxl>=3.1
-streamlit>=1.40
+streamlit>=1.46
+plotly>=5.18
+airportsdata>=20240101
