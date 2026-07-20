@@ -100,6 +100,10 @@ def detect_booking_schema(df: pd.DataFrame) -> dict:
         "label":    _find(cols, "match_label", "club", "match", "team", "competition"),
         "comp":     _find(cols, "competition", "comp"),
         "party":    _find(cols, "party_size", "party", "pax", "passengers", "travelling"),
+        "flight_hrs": _find(cols, "flight_hrs", "block_hrs", "block_time", "flying_hrs"),
+        # 3-phase occupation boundaries (optional; enable the phased Gantt)
+        "ground_start": _find(cols, "ground_start", "gameday_start", "on_ground_start"),
+        "return_start": _find(cols, "return_start", "return_depart", "plane_departs"),
     }
     return schema
 
@@ -162,7 +166,7 @@ def clean_team_names(df: pd.DataFrame, cols=None) -> pd.DataFrame:
     if cols is None:
         cols = [c for c in out.columns
                 if any(k in c.lower() for k in ("club", "team", "home", "away"))
-                and out[c].dtype == object]
+                and pd.api.types.is_string_dtype(out[c])]
     for c in cols:
         out[c] = (out[c].astype(str)
                         .str.strip()
